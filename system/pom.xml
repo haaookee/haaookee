@@ -53,8 +53,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.example</groupId>
             <artifactId>server</artifactId>
+            <groupId>com.example</groupId>
+
 
         </dependency>
     </dependencies>
