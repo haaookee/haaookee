@@ -6,7 +6,8 @@
     <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
-<plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+<plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"
+/>
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
