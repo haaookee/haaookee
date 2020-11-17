@@ -482,8 +482,21 @@
 export default {
   name:'login',
   mounted:function () {
+    let _this=this;
     $('body').removeClass('login-layout light-login');
     $('body').attr('class','no-skin');
+    _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
+  },
+  watch:{
+    $route:{
+      handler:function (val,oldVal){
+        console.log("--->页面跳转:",val,oldVal);
+        let _this=this;
+        _this.$nextTick(function(){
+          _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
+        })
+      }
+    }
   },
   methods:{
     login(){
