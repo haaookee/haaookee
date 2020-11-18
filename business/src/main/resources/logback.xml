@@ -6,7 +6,7 @@
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %highlight(%-5level) %yellow(at %class.%method) \(%file:%line\)  - %msg%n</pattern>
+            <pattern>%d{ss.SSS} %highlight(%-5level) %blue(%-30logger{30:%-4line}) %green(%-8X{UUID})  - %msg%n</pattern>
         </encoder>
     </appender>
 
