@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="JQ" type="javaScript">
+    <properties>
+      <option name="frameworkName" value="jQuery" />
+    </properties>
+    <CLASSES />
+    <DOCUMENTATION>
+      <root url="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js" />
+    </DOCUMENTATION>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
