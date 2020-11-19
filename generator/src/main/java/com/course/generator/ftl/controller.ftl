@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 @RequestMapping("/admin/${domain}")
 public class ${Domain}Controller {
 private static final Logger LOG = LoggerFactory.getLogger(${Domain}Controller.class);
-public  static final String BUSINESS_NAME="大章";
+public static final String BUSINESS_NAME = "${tableNameCn}";
 
 @Resource
 private ${Domain}Service ${domain}Service;
@@ -34,7 +34,7 @@ return responseDto;
 public ResponseDto save(@RequestBody ${Domain}Dto ${domain}Dto) {
 LOG.info("${domain}Dto:{}", ${domain}Dto);
 
-ValidatorUtil.require(${domain}Dto.getName(), "名称");
+ValidatorUtil.require(${domain}Dto.getId(), "名称");
 ValidatorUtil.require(${domain}Dto.getCourseId(), "课程ID");
 ValidatorUtil.length(${domain}Dto.getCourseId(), "课程ID", 1, 8);
 

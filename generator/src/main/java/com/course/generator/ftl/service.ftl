@@ -65,7 +65,7 @@ this.update(${domain});
     }
  public void delete(String id){
 
-        chapterMapper.deleteByPrimaryKey(id);
+        sectionMapper.deleteByPrimaryKey(id);
 
     }
 

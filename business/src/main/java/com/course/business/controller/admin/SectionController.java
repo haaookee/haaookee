@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 @RequestMapping("/admin/section")
 public class SectionController {
 private static final Logger LOG = LoggerFactory.getLogger(SectionController.class);
-public  static final String BUSINESS_NAME="小节";
+public static final String BUSINESS_NAME = "小节";
 
 @Resource
 private SectionService sectionService;
