@@ -1,4 +1,4 @@
-package com.course.server.servic;
+package com.course.server.service;
 
 import com.course.server.domain.Test;
 import com.course.server.domain.TestExample;
