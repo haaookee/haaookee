@@ -30,30 +30,29 @@ responseDto.setContent(pageDto);
 return responseDto;
 }
 
-@PostMapping("/save")
-public ResponseDto save(@RequestBody SectionDto sectionDto) {
-LOG.info("sectionDto:{}", sectionDto);
+    /**
+     * 保存，id有值时更新，无值时新增
+     */
+    @PostMapping("/save")
+    public ResponseDto save(@RequestBody SectionDto sectionDto) {
+        // 保存校验
+        ValidatorUtil.require(sectionDto.getTitle(), "标题");
+        ValidatorUtil.length(sectionDto.getTitle(), "标题", 1, 50);
+        ValidatorUtil.length(sectionDto.getVideo(), "视频", 1, 200);
 
-ValidatorUtil.require(sectionDto.getId(), "名称");
-ValidatorUtil.require(sectionDto.getCourseId(), "课程ID");
-ValidatorUtil.length(sectionDto.getCourseId(), "课程ID", 1, 8);
+        ResponseDto responseDto = new ResponseDto();
+        sectionService.save(sectionDto);
+        responseDto.setContent(sectionDto);
+        return responseDto;
+    }
 
-
-
-
-ResponseDto responseDto =new ResponseDto();
-sectionService.save(sectionDto);
-responseDto.setContent(sectionDto);
-return responseDto;
-}
-
-@DeleteMapping("/delete/{id}")
-public ResponseDto save(@PathVariable String id) {
-LOG.info("id:{}", id);
-ResponseDto responseDto =new ResponseDto();
-sectionService.delete(id);
-
-return responseDto;
-}
-
+    /**
+     * 删除
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseDto save(@PathVariable String id) {
+        ResponseDto responseDto = new ResponseDto();
+        sectionService.delete(id);
+        return responseDto;
+    }
 }

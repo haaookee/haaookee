@@ -1,10 +1,10 @@
 package com.course.server.service;
 
 import com.course.server.domain.Section;
-import com.course.server.domain.Section;
 import com.course.server.domain.SectionExample;
-import com.course.server.dto.SectionDto;
 import com.course.server.dto.PageDto;
+import com.course.server.dto.SectionDto;
+import com.course.server.enums.SectionChargeEnum;
 import com.course.server.mapper.SectionMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +29,7 @@ public class SectionService {
         PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
         SectionExample sectionExample = new SectionExample();
         List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
+        sectionExample.setOrderByClause("sort asc");
         PageInfo<Section> pageInfo=new PageInfo<>(sectionList);
         pageDto.setTotal(pageInfo.getTotal());
 
@@ -52,14 +54,18 @@ this.update(section);
     }
 
    private void insert(Section section){
-        section.setId(UuidUtil.getShortUuid());
+       Date now=new Date();
+       section.setCreatedAt(now);
+       section.setUpdatedAt(now);
 
+        section.setId(UuidUtil.getShortUuid());
+   section.setCharge(SectionChargeEnum.CHARGE.getCode());
 
         sectionMapper.insert(section);
 
     }
  private void update(Section section){
-
+section.setUpdatedAt(new Date());
         sectionMapper.updateByPrimaryKey(section);
 
     }
