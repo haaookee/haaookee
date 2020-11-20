@@ -1,6 +1,6 @@
 package com.course.generator.util;
 
-
+import com.course.generator.enums.EnumGenerator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -85,11 +85,22 @@ public class DbUtil {
                 if (type.toUpperCase().contains("varchar".toUpperCase())) {
                     String lengthStr = type.substring(type.indexOf("(") + 1, type.length() - 1);
                     field.setLength(Integer.valueOf(lengthStr));
+                } else {
+                    field.setLength(0);
                 }
-                    else{
-                        fieldList.add(field);
-                    }
+                if (comment.contains("枚举")) {
+                    field.setEnums(true);
 
+                    // 以课程等级为例：从注释中的“枚举[CourseLevelEnum]”，得到COURSE_LEVEL
+                    int start = comment.indexOf("[");
+                    int end = comment.indexOf("]");
+                    String enumsName = comment.substring(start + 1, end);
+                    String enumsConst = EnumGenerator.toUnderline(enumsName);
+                    field.setEnumsConst(enumsConst);
+                } else {
+                    field.setEnums(false);
+                }
+                fieldList.add(field);
             }
         }
         rs.close();
