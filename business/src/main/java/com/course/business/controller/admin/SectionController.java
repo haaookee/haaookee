@@ -1,8 +1,9 @@
 package com.course.business.controller.admin;
 
-import com.course.server.dto.SectionDto;
-import com.course.server.dto.PageDto;
+
 import com.course.server.dto.ResponseDto;
+import com.course.server.dto.SectionDto;
+import com.course.server.dto.SectionPageDto;
 import com.course.server.service.SectionService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
@@ -21,14 +22,15 @@ public static final String BUSINESS_NAME = "小节";
 @Resource
 private SectionService sectionService;
 
-@PostMapping("/list")
-public ResponseDto list(@RequestBody PageDto pageDto) {
-LOG.info("pageDto:{}", pageDto);
-ResponseDto responseDto =new ResponseDto();
-sectionService.list(pageDto);
-responseDto.setContent(pageDto);
-return responseDto;
-}
+    @PostMapping("/list")
+    public ResponseDto section(@RequestBody SectionPageDto sectionPageDto) {
+        ResponseDto responseDto = new ResponseDto();
+        ValidatorUtil.require(sectionPageDto.getCourseId(), "课程ID");
+        ValidatorUtil.require(sectionPageDto.getChapterId(), "大章ID");
+        sectionService.list(sectionPageDto);
+        responseDto.setContent(sectionPageDto);
+        return responseDto;
+    }
 
     /**
      * 保存，id有值时更新，无值时新增

@@ -1,5 +1,10 @@
 
 <template>
+  <h4 class="lighter">
+    <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+    <router-link to="/business/course" class="pink"> {{course.name}} </router-link>
+  </h4>
+  <hr>
   <div>
     <h3>{{course.name}}</h3>
     <p>
@@ -33,18 +38,19 @@
   <tr v-for="chapter in chapters">
     <td>{{chapter.id}}</td>
     <td>{{chapter.name}}</td>
-    <td>{{chapter.courseId}}</td>
-
     <td>
       <div class="hidden-sm hidden-xs btn-group">
-
-
+        <button v-on:click="toSection(chapter)" class="btn btn-white btn-xs btn-info btn-round">
+          小节
+        </button>&nbsp;
         <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
           <i class="ace-icon fa fa-pencil bigger-120"></i>
+          编辑
         </button>
 
         <button v-on:click="del(chapter.id)" class="btn btn-xs btn-danger">
           <i class="ace-icon fa fa-trash-o bigger-120"></i>
+          删除
         </button>
       </div>
     </td>
@@ -184,6 +190,14 @@ if(resp.success){
         })
       });
     },
+    /**
+     * 点击【小节】
+     */
+    toSection(chapter) {
+      let _this = this;
+      SessionStorage.set(SESSION_KEY_CHAPTER, chapter);
+      _this.$router.push("/business/section");
+    }
   }
 }
 </script>
