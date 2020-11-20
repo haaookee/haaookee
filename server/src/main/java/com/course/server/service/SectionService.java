@@ -10,12 +10,11 @@ import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +23,10 @@ public class SectionService {
 
     @Resource
     private SectionMapper sectionMapper;
+
+    @Resource
+    private CourseService courseService;
+
 
     public void list(SectionPageDto sectionPageDto) {
         PageHelper.startPage(sectionPageDto.getPage(), sectionPageDto.getSize());
@@ -39,15 +42,12 @@ public class SectionService {
         List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sectionList);
         sectionPageDto.setTotal(pageInfo.getTotal());
-        List<SectionDto> sectionDtoList = new ArrayList<SectionDto>();
-        for (int i = 0; i < sectionList.size(); i++) {
-            Section section = sectionList.get(i);
-            SectionDto sectionDto = new SectionDto();
-            BeanUtils.copyProperties(section, sectionDto);
-            sectionDtoList.add(sectionDto);
-        }
+        List<SectionDto> sectionDtoList = CopyUtil.copyList(sectionList,SectionDto.class);
+
         sectionPageDto.setList(sectionDtoList);
     }
+
+    @Transactional
     public void save(SectionDto sectionDto){
         Section section = CopyUtil.copy(sectionDto,Section.class);
       if (StringUtils.isEmpty(sectionDto.getId())){
@@ -55,7 +55,7 @@ public class SectionService {
       }else{
 this.update(section);
       }
-
+courseService.updateTime(sectionDto.getCourseId());
     }
 
    private void insert(Section section){

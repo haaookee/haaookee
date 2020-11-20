@@ -22,7 +22,7 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-                <th>id</th>
+        <th>id</th>
         <th>标题</th>
         <th>课程</th>
         <th>大章</th>
@@ -33,7 +33,7 @@
         <th>创建时间</th>
         <th>修改时间</th>
 
-      <th>操作</th>
+        <th>操作</th>
       </tr>
       </thead>
 
@@ -44,25 +44,25 @@
         <td>{{section.courseId}}</td>
         <td>{{section.chapterId}}</td>
         <td>{{section.video}}</td>
-        <td>{{section.time}}</td>
-     <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
+        <td>{{section.time | formatSecond}}</td>
+        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
         <td>{{section.sort}}</td>
 
 
 
-      <td>
-        <div class="hidden-sm hidden-xs btn-group">
+        <td>
+          <div class="hidden-sm hidden-xs btn-group">
 
 
-          <button v-on:click="edit(section)" class="btn btn-xs btn-info">
-            <i class="ace-icon fa fa-pencil bigger-120"></i>
-          </button>
+            <button v-on:click="edit(section)" class="btn btn-xs btn-info">
+              <i class="ace-icon fa fa-pencil bigger-120"></i>
+            </button>
 
-          <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
-            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-          </button>
-        </div>
-      </td>
+            <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
+              <i class="ace-icon fa fa-trash-o bigger-120"></i>
+            </button>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -138,114 +138,114 @@
   </div>
 </template>
 <script>
-    import Pagination from "../../components/pagination";
-    export default {
-        components: {Pagination},
-        comments:{
-            Pagination
-        },
-        name: 'section',
-        data:function (){
-            return{
-                section:{},
-                sections:[],
-              SECTION_CHARGE:SECTION_CHARGE,
-              course:{},
-              chapter:{},
-            }
-        },
-        mounted:function() {
-            let _this =this;
-            _this.$refs.pagination.size=5;
-          let course = SessionStorage.get("course") || {};
-          let chapter = SessionStorage.get("chapter") || {};
-          if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
-            _this.$router.push("/welcome");
-          }
-          _this.course = course;
-          _this.chapter = chapter;
-            _this.list(1);
-        },
-        methods:{
-            add() {
-                let _this=this;
-                _this.section={};
-                $("#form-modal").modal("show");
-            },
-
-            edit(section) {
-                let _this=this;
-                _this.section = $.extend({},section);
-                $("#form-modal").modal("show");
-            },
-
-            list(page){
-                let _this=this;
-                Loading.show();
-                _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/section/list',{
-                    page:page,
-                    size:_this.$refs.pagination.size,
-                  courseId: _this.course.id,
-                  chapterId: _this.chapter.id
-                }).then((response)=>{
-                    Loading.hide();
-
-                    let resp = response.data;
-                    _this.sections=resp.content.list;
-                    _this.$refs.pagination.render(page,resp.content.total);
-                })
-            },
-
-            save(page){
-                let _this = this;
-              // 保存校验
-              if (1 != 1
-
-                || !Validator.require(_this.section.title, "标题")
-                || !Validator.length(_this.section.title, "标题", 1, 50)
-                || !Validator.length(_this.section.video, "视频", 1, 200)
-              ) {
-                return;
-              }
-              _this.section.courseId = _this.course.id;
-              _this.section.chapterId = _this.chapter.id;
-
-                Loading.show();
-                _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/section/save',
-                    _this.section).then((response)=>{
-                    Loading.hide();
-
-                    let resp = response.data;
-                    if(resp.success){
-                        $("#form-modal").modal("hide");
-                        _this.list(1);
-                        Toast.success("保存成功");
-
-                    }else
-                    {
-                        Toast.warning(resp.message);
-                    }
-                })
-            },
-
-            del(id) {
-
-
-                let _this = this;
-                Confirm.show("删除小节后不可恢复 确认删除？!", function () {
-                    Loading.show();
-                    _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response) => {
-                        Loading.hide();
-                        console.log("删除小节列表结果:", response);
-                        let resp = response.data;
-                        if (resp.success) {
-
-                            _this.list(1);
-                            Toast.success("删除成功");
-                        }
-                    })
-                });
-            },
-        }
+import Pagination from "../../components/pagination";
+export default {
+  components: {Pagination},
+  comments:{
+    Pagination
+  },
+  name: 'section',
+  data:function (){
+    return{
+      section:{},
+      sections:[],
+      SECTION_CHARGE:SECTION_CHARGE,
+      course:{},
+      chapter:{},
     }
+  },
+  mounted:function() {
+    let _this =this;
+    _this.$refs.pagination.size=5;
+    let course = SessionStorage.get("course") || {};
+    let chapter = SessionStorage.get("chapter") || {};
+    if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
+      _this.$router.push("/welcome");
+    }
+    _this.course = course;
+    _this.chapter = chapter;
+    _this.list(1);
+  },
+  methods:{
+    add() {
+      let _this=this;
+      _this.section={};
+      $("#form-modal").modal("show");
+    },
+
+    edit(section) {
+      let _this=this;
+      _this.section = $.extend({},section);
+      $("#form-modal").modal("show");
+    },
+
+    list(page){
+      let _this=this;
+      Loading.show();
+      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/section/list',{
+        page:page,
+        size:_this.$refs.pagination.size,
+        courseId: _this.course.id,
+        chapterId: _this.chapter.id
+      }).then((response)=>{
+        Loading.hide();
+
+        let resp = response.data;
+        _this.sections=resp.content.list;
+        _this.$refs.pagination.render(page,resp.content.total);
+      })
+    },
+
+    save(page){
+      let _this = this;
+      // 保存校验
+      if (1 != 1
+
+        || !Validator.require(_this.section.title, "标题")
+        || !Validator.length(_this.section.title, "标题", 1, 50)
+        || !Validator.length(_this.section.video, "视频", 1, 200)
+      ) {
+        return;
+      }
+      _this.section.courseId = _this.course.id;
+      _this.section.chapterId = _this.chapter.id;
+
+      Loading.show();
+      _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/section/save',
+        _this.section).then((response)=>{
+        Loading.hide();
+
+        let resp = response.data;
+        if(resp.success){
+          $("#form-modal").modal("hide");
+          _this.list(1);
+          Toast.success("保存成功");
+
+        }else
+        {
+          Toast.warning(resp.message);
+        }
+      })
+    },
+
+    del(id) {
+
+
+      let _this = this;
+      Confirm.show("删除小节后不可恢复 确认删除？!", function () {
+        Loading.show();
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response) => {
+          Loading.hide();
+          console.log("删除小节列表结果:", response);
+          let resp = response.data;
+          if (resp.success) {
+
+            _this.list(1);
+            Toast.success("删除成功");
+          }
+        })
+      });
+    },
+  }
+}
 </script>

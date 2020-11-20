@@ -1,27 +1,26 @@
 
 <template>
-  <h4 class="lighter">
-    <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-    <router-link to="/business/course" class="pink"> {{course.name}} </router-link>
-  </h4>
-  <hr>
   <div>
-    <h3>{{course.name}}</h3>
+    <h4 class="lighter">
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>
+    </h4>
+    <hr>
     <p>
-<router-link to="/business/course" class="btn btn-white btn-default btn-round">
-<i class="ace-icon fa fa-arrow-left "></i>
-返回课程
-</router-link>
-      &nbsp;&nbsp;
+      <router-link to="/business/course" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        返回课程
+      </router-link>
+      &nbsp;
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-<i class="ace-icon fa fa-edit "></i>
-新增
-</button>
+        <i class="ace-icon fa fa-edit"></i>
+        新增
+      </button>
       &nbsp;
       <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-<i class="ace-icon fa fa-refresh "></i>
-刷新
-</button>
+        <i class="ace-icon fa fa-refresh"></i>
+        刷新
+      </button>
     </p>
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
 <table id="simple-table" class="table  table-bordered table-hover">
@@ -29,10 +28,11 @@
   <tr>
     <th>ID</th>
     <th>名称</th>
-    <th>课程ID</th>
+
     <th>操作</th>
   </tr>
   </thead>
+
 
   <tbody>
   <tr v-for="chapter in chapters">
@@ -43,18 +43,16 @@
         <button v-on:click="toSection(chapter)" class="btn btn-white btn-xs btn-info btn-round">
           小节
         </button>&nbsp;
-        <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
-          <i class="ace-icon fa fa-pencil bigger-120"></i>
+        <button v-on:click="edit(chapter)" class="btn btn-white btn-xs btn-info btn-round">
           编辑
-        </button>
-
-        <button v-on:click="del(chapter.id)" class="btn btn-xs btn-danger">
-          <i class="ace-icon fa fa-trash-o bigger-120"></i>
+        </button>&nbsp;
+        <button v-on:click="del(chapter.id)" class="btn btn-white btn-xs btn-warning btn-round">
           删除
         </button>
       </div>
     </td>
   </tr>
+
   </tbody>
 </table>
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
@@ -195,7 +193,7 @@ if(resp.success){
      */
     toSection(chapter) {
       let _this = this;
-      SessionStorage.set(SESSION_KEY_CHAPTER, chapter);
+      SessionStorage.set("chapter", chapter);
       _this.$router.push("/business/section");
     }
   }
