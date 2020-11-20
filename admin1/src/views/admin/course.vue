@@ -41,7 +41,7 @@
             <p>
               <span class="badge badge-info">{{course.id}}</span>
               <span class="badge badge-info">排序：{{course.sort}}</span>
-              <span class="badge badge-info">{{course.time | formatSecond}}</span>
+              <span class="badge badge-info">{{course.time }}</span>
             </p>
 <p>
   <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
@@ -247,6 +247,7 @@ export default {
 
     list(page) {
       let _this = this;
+
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list', {
         page: page,
